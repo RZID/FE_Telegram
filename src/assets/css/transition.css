@@ -1,0 +1,15 @@
+.append-enter-active {
+    animation: pop 0.3s linear 1;    
+}
+.append-leave-active{
+    animation: popBye 0.3s linear 1;    
+}
+@keyframes pop{
+    0% {transform:scale(0.5)}
+    50%  {transform: scale(1.2);}
+}
+@keyframes popBye{
+    0%  {transform: scale(1)}
+    50%   {transform: scale(1.2)}
+    100% {transform: scale(0)}
+}

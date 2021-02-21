@@ -1,0 +1,45 @@
+@font-face{
+    src: url('../fonts/Rubik/Rubik-VariableFont_wght.ttf');
+    font-family: Rubik;
+}
+*{
+    font-family: Rubik;
+}
+.h-100vh{
+    height: 100vh;
+}
+.bg-all{
+    background-color:#E5E5E5;
+}
+.text-blue{
+    color: #7E98DF;
+}
+.btn-blue{
+    background-color: #7E98DF;
+    color: white;
+}
+.bg-blue{
+    background-color: #7E98DF;
+    color: white;
+}
+.btn-outline-blue{
+    border-color: #7E98DF;
+}
+.rounded-btn{
+    border-radius: 70px;
+}
+.br-30px{
+border-radius: 30px;
+}
+.d-tabling {
+    display:table-row;
+}
+.d-tableCell {
+    display:table-cell;
+}
+.h-200px{
+    height: 200px;
+}
+.h-remaining-header{
+    height: calc(100vh - 200px);
+}
