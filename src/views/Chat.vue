@@ -12,7 +12,7 @@
             <div class="container py-3">
               <div class="row d-flex">
                 <div class="col-1 align-self-center">
-                  <b-link @click="$router.replace({ query: null })">
+                  <b-link @click="$router.replace({ query: {} })">
                     <h4 class="m-0 text-blue">
                       <i class="fas fa-chevron-left"></i>
                     </h4>
@@ -27,9 +27,7 @@
               <div class="d-flex justify-content-center">
                 <div class="container pt-4">
                   <div class="row">
-                    <div
-                      class="col-md-12 col-3 d-flex justify-content-md-center"
-                    >
+                    <div class="col-12 d-flex justify-content-center">
                       <span class="align-self-center">
                         <input
                           type="file"
@@ -60,7 +58,7 @@
                         </b-link>
                       </span>
                     </div>
-                    <div class="col d-flex justify-content-md-center">
+                    <div class="col d-flex justify-content-center">
                       <div class="pt-3 align-self-center">
                         <h4 class="text-center">{{ userData.name_user }}</h4>
                         <p class="text-muted text-md-center">
@@ -98,11 +96,44 @@
                     </b-link>
                   </div>
                   <hr />
-                  <div class="pt-3">
+                  <div class="py-3">
                     <h6 class="font-weight-bold">
-                      I'm Senior Frontend Developer from Microsoft
+                      {{ userData.bio_user }}
                     </h6>
                     Bio
+                  </div>
+                  <div v-if="userData.lat_user && userData.long_user">
+                    Location
+                    <Maps
+                      v-if="render"
+                      :lat="userData.lat_user"
+                      :long="userData.long_user"
+                    />
+                    <div>
+                      <div class="w-100">
+                        <form @submit.prevent="setLocation()">
+                          <div class="mb-3">
+                            <input
+                              class="form-control mt-2 w-100"
+                              placeholder="Latitude"
+                              v-model="userData.lat_user"
+                              type="text"
+                            />
+                            <input
+                              class="form-control mt-2 w-100"
+                              placeholder="Longitude"
+                              v-model="userData.long_user"
+                              type="text"
+                            />
+                          </div>
+                          <div class="w-100 text-right">
+                            <button class="btn btn-success">
+                              Set Location
+                            </button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
                   </div>
                   <div class="pt-3">
                     <h5 class="font-weight-bold">Settings</h5>
@@ -261,7 +292,12 @@
             </div>
           </div>
         </div>
-        <div class="col overflow-auto h-100">
+        <div
+          class="col overflow-auto h-100"
+          :class="
+            $route.query.page === 'friendProfile' ? 'd-none d-lg-block' : ''
+          "
+        >
           <div v-if="$route.params.chatId">
             <roomChat
               :data="$route.params.chatId"
@@ -276,102 +312,255 @@
             </div>
           </div>
         </div>
+        <div
+          class="col-12 col-lg-3"
+          v-if="$route.query.page === 'friendProfile'"
+        >
+          <div class="container pt-4 w-100 ">
+            <div class="row d-flex mb-3">
+              <div class="col-1 align-self-center">
+                <b-link
+                  @click="$router.push({ query: {} }).catch(() => {})"
+                  class="text-blue text-decoration-none"
+                >
+                  <h3 class="m-0">
+                    <i class="fas fa-chevron-left"></i>
+                  </h3>
+                </b-link>
+              </div>
+              <div class="col align-self-center">
+                <h5 class="m-0 text-blue">
+                  {{
+                    getUserData
+                      .filter((el) => el.unique_room == $route.params.chatId)[0]
+                      .participant.filter(
+                        (el) =>
+                          el.email_user !=
+                          $store.getters["auth/getUserData"].email
+                      )[0].email_user
+                  }}
+                </h5>
+              </div>
+            </div>
+            <div class="text-center w-100 mb-3">
+              <img
+                class="square-image "
+                :src="
+                  getImage(
+                    getUserData
+                      .filter((el) => el.unique_room == $route.params.chatId)[0]
+                      .participant.filter(
+                        (el) =>
+                          el.email_user !=
+                          $store.getters['auth/getUserData'].email
+                      )[0].img_photo
+                  )
+                "
+                alt=""
+              />
+            </div>
+            <div class="text-center">
+              <h5 class="font-weight-bold m-0">
+                {{
+                  getUserData
+                    .filter((el) => el.unique_room == $route.params.chatId)[0]
+                    .participant.filter(
+                      (el) =>
+                        el.email_user !=
+                        $store.getters["auth/getUserData"].email
+                    )[0].name_user
+                }}
+              </h5>
+              <hr class=" m-0" />
+              <p>
+                {{
+                  getUserData
+                    .filter((el) => el.unique_room == $route.params.chatId)[0]
+                    .participant.filter(
+                      (el) =>
+                        el.email_user !=
+                        $store.getters["auth/getUserData"].email
+                    )[0].bio_user
+                }}
+              </p>
+            </div>
+          </div>
+          <div class="container">
+            <h5 class="font-weight-bold">Location</h5>
+            <div
+              v-if="
+                getUserData
+                  .filter((el) => el.unique_room == $route.params.chatId)[0]
+                  .participant.filter(
+                    (el) =>
+                      el.email_user != $store.getters['auth/getUserData'].email
+                  )[0]
+              "
+            >
+              <Maps
+                :lat="
+                  getUserData
+                    .filter((el) => el.unique_room == $route.params.chatId)[0]
+                    .participant.filter(
+                      (el) =>
+                        el.email_user !=
+                        $store.getters['auth/getUserData'].email
+                    )[0].lat_user
+                "
+                :long="
+                  getUserData
+                    .filter((el) => el.unique_room == $route.params.chatId)[0]
+                    .participant.filter(
+                      (el) =>
+                        el.email_user !=
+                        $store.getters['auth/getUserData'].email
+                    )[0].long_user
+                "
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import ListChat from '../components/ListChat.vue'
-import roomChat from '../components/RoomChat.vue'
-import AddFriend from '../components/MdAdd'
-import chatList from '../helper/chatList'
-import Axios from 'axios'
-import Alert from '../helper/swal'
+import ListChat from "../components/ListChat.vue";
+import roomChat from "../components/RoomChat.vue";
+import AddFriend from "../components/MdAdd";
+import Maps from "../components/Maps";
+import chatList from "../helper/chatList";
+import Axios from "axios";
+import Alert from "../helper/swal";
 export default {
   mixins: [chatList, Alert],
   components: {
     ListChat,
     roomChat,
-    AddFriend
+    AddFriend,
+    Maps,
   },
   data: () => {
     return {
-      form: {
-      },
+      render: true,
+      form: {},
       userData: {},
-      urlImage: '',
-      inputName: true
-    }
+      urlImage: "",
+      inputName: true,
+    };
   },
   methods: {
-    sendFile (e) {
-      const file = e.target.files[0]
-      if (file['type'] !== 'image/jpeg' && file['type'] !== 'image/png') {
-        this.toastDanger('Please insert image with format jpg/jpeg/png')
+    sendFile(e) {
+      const file = e.target.files[0];
+      if (file["type"] !== "image/jpeg" && file["type"] !== "image/png") {
+        this.toastDanger("Please insert image with format jpg/jpeg/png");
       } else {
-        this.urlImage = URL.createObjectURL(file)
-        let formData = new FormData()
-        formData.append('image', file)
-        formData.append('email', this.$store.getters['auth/getUserData'].email)
+        this.urlImage = URL.createObjectURL(file);
+        let formData = new FormData();
+        formData.append("image", file);
+        formData.append("email", this.$store.getters["auth/getUserData"].email);
         Axios.post(`${process.env.VUE_APP_BACKEND}/setProfile/`, formData, {
           headers: {
-            'token': this.$store.getters['auth/getToken']
-          }
-        }).then((res) => {
-          console.log(res)
-          this.socket.emit('change-profile')
-        }).catch((err) => console.error(err.response))
-      }
-    },
-    submitName () {
-      if (this.userData.name_user) {
-        Axios.post(`${process.env.VUE_APP_BACKEND}/changeName`, {
-          email: this.$store.getters['auth/getUserData'].email,
-          name: this.userData.name_user
-        }, {
-          headers: {
-            'token': this.$store.getters['auth/getToken']
-          }
-        }).then(() => {
-          this.socket.emit('change-profile')
-        }).catch((err) => {
-          console.error(err)
-        }).finally(() => {
-          this.inputName = true
+            token: this.$store.getters["auth/getToken"],
+          },
         })
+          .then(() => {
+            this.socket.emit("change-profile");
+          })
+          .catch((err) => console.error(err.response));
       }
     },
-    getImage (img) {
-      return `${process.env.VUE_APP_BACKEND}/profile-img/${img}`
+    setLocation() {
+      const lat = this.userData.lat_user;
+      const long = this.userData.long_user;
+      if (lat && long) {
+        Axios.post(
+          `${process.env.VUE_APP_BACKEND}/setLocation`,
+          {
+            email: this.$store.getters["auth/getUserData"].email,
+            lat: lat,
+            long: long,
+          },
+          {
+            headers: {
+              token: this.$store.getters["auth/getToken"],
+            },
+          }
+        )
+          .then(() => {
+            this.socket.emit("change-profile");
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            this.render = false;
+            this.$nextTick().then(() => {
+              this.render = true;
+            });
+          });
+      }
     },
-    login () {
-      this.socket.emit('logged-in', this.$store.getters['auth/getUserData'].email)
+    submitName() {
+      if (this.userData.name_user) {
+        Axios.post(
+          `${process.env.VUE_APP_BACKEND}/changeName`,
+          {
+            email: this.$store.getters["auth/getUserData"].email,
+            name: this.userData.name_user,
+          },
+          {
+            headers: {
+              token: this.$store.getters["auth/getToken"],
+            },
+          }
+        )
+          .then(() => {
+            this.socket.emit("change-profile");
+          })
+          .catch((err) => {
+            console.error(err);
+          })
+          .finally(() => {
+            this.inputName = true;
+          });
+      }
     },
-    getUser () {
-      Axios.post(`${process.env.VUE_APP_BACKEND}/user`,
+    getImage(img) {
+      return `${process.env.VUE_APP_BACKEND}/profile-img/${img}`;
+    },
+    login() {
+      this.socket.emit(
+        "logged-in",
+        this.$store.getters["auth/getUserData"].email
+      );
+    },
+    getUser() {
+      Axios.post(
+        `${process.env.VUE_APP_BACKEND}/user`,
         {
-          email: this.$store.getters['auth/getUserData'].email
+          email: this.$store.getters["auth/getUserData"].email,
         },
         {
           headers: {
-            'token': this.$store.getters['auth/getToken']
-          }
+            token: this.$store.getters["auth/getToken"],
+          },
         }
-      ).then((res) => {
-        this.userData = res.data.message[0]
-      }).catch((err) => {
-        console.error(err.response)
-      })
-    }
+      )
+        .then((res) => {
+          this.userData = res.data.message[0];
+        })
+        .catch((err) => {
+          console.error(err.response);
+        });
+    },
   },
-  mounted () {
-    this.login(),
-      this.getUser()
-  }
-}
+  mounted() {
+    this.login(), this.getUser();
+  },
+};
 </script>
-<style src="../assets/css/logged.css" scoped>
-</style>
+<style src="../assets/css/logged.css" scoped></style>
 <style scoped>
 .form-control:disabled {
   border: none;

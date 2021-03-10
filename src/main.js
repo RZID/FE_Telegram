@@ -20,7 +20,13 @@ Vue.use(IconsPlugin)
 import './assets/fontawesome/fontawesome-free-5.15.1-web/css/all.min.css'
 
 Vue.config.productionTip = false
-
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: `${process.env.VUE_APP_GMAPS}`,
+    libraries: 'places'
+  }
+})
 new Vue({
   router,
   store,

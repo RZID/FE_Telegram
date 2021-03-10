@@ -3,76 +3,85 @@
     <div class="navBar shadow" v-if="target.length > 0">
       <div class="d-flex h-100 px-5">
         <div class="align-self-center w-100">
-          <div class=""></div>
-
-          <div class="row">
-            <div class="d-md-none col-1 d-flex">
-              <router-link to="/" class="align-self-center">
-                <h4 class="text-blue m-0 fas fa-chevron-left"></h4>
-              </router-link>
-            </div>
-            <div class="col-3 col-md-2 col-lg-1">
-              <img
-                style="height: 50px; width: 50px"
-                class="cover"
-                v-if="target[0].type_room == 1"
-                :src="
-                  target[0].img_photo
-                    ? getImage_private(target[0].img_photo)
-                    : getImage_private('default.svg')
-                "
-                @onerror="
-                  'this.onerror=null; this.src=' +
-                    getImage_private('default.svg')
-                "
-              /><img
-                style="max-height: 50px"
-                class="w-100 h-100"
-                v-else
-                :src="
-                  target[0].img_photo
-                    ? getImage_group(target[0].img_photo)
-                    : getImage_group('default.svg')
-                "
-                @onerror="
-                  'this.onerror=null; this.src=' + getImage_group('default.svg')
-                "
-              />
-            </div>
-            <div class="col">
-              <span v-if="target[0].type_room == 1">
-                <h4 class="m-0">
-                  <v-clamp autoresize :max-lines="1">
-                    {{ target[0].name_user }}
-                  </v-clamp>
-                </h4>
-                <p class="m-0">
-                  <small class="text-blue">{{ getOnline }}</small>
-                </p>
-              </span>
-            </div>
-            <div class="col-1 d-flex justify-content-end">
-              <b-dropdown variant="link" size="sm" no-caret right no-carets>
-                <template slot="button-content">
-                  <span class="align-self-center">
-                    <h4 class="m-0 text-blue">
-                      <i class="fas fa-ellipsis-v"></i>
+          <div class="container">
+            <div class="row">
+              <div class="d-lg-none col-1 d-flex">
+                <b-link
+                  @click="$router.push('/chat').catch(() => {})"
+                  class="align-self-center"
+                >
+                  <h4 class="text-blue m-0 fas fa-chevron-left"></h4>
+                </b-link>
+              </div>
+              <div class="col-3 col-md-2 col-lg-1 mr-3">
+                <img
+                  style="height: 50px; width: 50px"
+                  class="cover"
+                  v-if="target[0].type_room == 1"
+                  :src="
+                    target[0].img_photo
+                      ? getImage_private(target[0].img_photo)
+                      : getImage_private('default.svg')
+                  "
+                  @onerror="
+                    'this.onerror=null; this.src=' +
+                      getImage_private('default.svg')
+                  "
+                /><img
+                  style="max-height: 50px"
+                  class="w-100 h-100"
+                  v-else
+                  :src="
+                    target[0].img_photo
+                      ? getImage_group(target[0].img_photo)
+                      : getImage_group('default.svg')
+                  "
+                  @onerror="
+                    'this.onerror=null; this.src=' +
+                      getImage_group('default.svg')
+                  "
+                />
+              </div>
+              <div class="col">
+                <b-link
+                  class="text-dark text-decoration-none"
+                  @click="lookProfile()"
+                >
+                  <span v-if="target[0].type_room == 1">
+                    <h4 class="m-0">
+                      <v-clamp autoresize :max-lines="1">
+                        {{ target[0].name_user }}
+                      </v-clamp>
                     </h4>
+                    <p class="m-0">
+                      <small class="text-blue">{{ getOnline }}</small>
+                    </p>
                   </span>
-                </template>
-                <b-dropdown-item>
-                  <i class="fas fa-phone"></i> Call
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <i class="fas fa-trash"></i> Delete Chat History
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <i class="fas fa-bell-slash"></i> Mute Notifications
-                </b-dropdown-item>
-                <b-dropdown-item>
-                  <i class="fas fa-search"></i> Search
-                </b-dropdown-item>
-              </b-dropdown>
+                </b-link>
+              </div>
+              <div class="col-1 d-flex justify-content-end">
+                <b-dropdown variant="link" size="sm" no-caret right no-carets>
+                  <template slot="button-content">
+                    <span class="align-self-center">
+                      <h4 class="m-0 text-blue">
+                        <i class="fas fa-ellipsis-v"></i>
+                      </h4>
+                    </span>
+                  </template>
+                  <b-dropdown-item>
+                    <i class="fas fa-phone"></i> Call
+                  </b-dropdown-item>
+                  <b-dropdown-item>
+                    <i class="fas fa-trash"></i> Delete Chat History
+                  </b-dropdown-item>
+                  <b-dropdown-item>
+                    <i class="fas fa-bell-slash"></i> Mute Notifications
+                  </b-dropdown-item>
+                  <b-dropdown-item>
+                    <i class="fas fa-search"></i> Search
+                  </b-dropdown-item>
+                </b-dropdown>
+              </div>
             </div>
           </div>
         </div>
@@ -124,9 +133,33 @@
                 v-model="text"
               />
               <div class="input-group-append">
-                <button class="btn btn-light text-blue" type="button">
-                  <i class="fas fa-plus"></i>
-                </button>
+                <b-dropdown
+                  id="dropdown-dropup"
+                  dropup
+                  text="Drop-Up"
+                  variant="white"
+                  class="m-2"
+                  no-caret
+                >
+                  <template #button-content>
+                    <i class="fas fa-plus text-blue"></i>
+                  </template>
+
+                  <b-dropdown-item href="#"
+                    ><i class="far fa-image"></i> Images</b-dropdown-item
+                  >
+                  <b-dropdown-item href="#">
+                    <i class="far fa-file"></i> Documents</b-dropdown-item
+                  >
+                  <b-dropdown-item href="#">
+                    <i class="far fa-user"></i>
+                    Contacts</b-dropdown-item
+                  >
+                  <b-dropdown-item v-b-modal.modal-maps>
+                    <i class="fas fa-map-marker-alt"></i>
+                    Location</b-dropdown-item
+                  >
+                </b-dropdown>
                 <button class="btn btn-light text-blue" type="button">
                   <i class="fas fa-surprise"></i>
                 </button>
@@ -151,143 +184,154 @@
   </div>
 </template>
 <script>
-import io from 'socket.io-client'
-import date from '../helper/date'
-import VClamp from 'vue-clamp'
-import { mapGetters } from 'vuex'
+import io from "socket.io-client";
+import date from "../helper/date";
+import VClamp from "vue-clamp";
+import { mapGetters } from "vuex";
+
 export default {
   mixins: [date],
   components: {
-    VClamp
+    VClamp,
   },
-  props: ['data'],
+  props: ["data"],
   data: () => {
     return {
       chat: [],
       socket: io(`${process.env.VUE_APP_BACKEND}`),
-      text: '',
-      target: []
-    }
+      text: "",
+      target: [],
+      friendProfile: false,
+    };
   },
   methods: {
-    chatSend (i) {
+    chatSend(i) {
       if (i > 0 && i + 1 < this.chat.length) {
-        if (this.chat[i].email_user === this.chat[i - 1].email_user && this.chat[i].email_user === this.chat[i + 1].email_user) {
-          return 'chatSquare'
+        if (
+          this.chat[i].email_user === this.chat[i - 1].email_user &&
+          this.chat[i].email_user === this.chat[i + 1].email_user
+        ) {
+          return "chatSquare";
         } else if (this.chat[i].email_user != this.chat[i + 1].email_user) {
-          return 'sendEnd'
+          return "sendEnd";
         } else {
-          return 'sendFirst'
+          return "sendFirst";
         }
       } else {
-        return 'sendFirst'
+        return "sendFirst";
       }
     },
-    chatReceive (i) {
+    chatReceive(i) {
       if (i > 0 && i + 1 < this.chat.length) {
-        if (this.chat[i].email_user === this.chat[i - 1].email_user && this.chat[i].email_user === this.chat[i + 1].email_user) {
-          return 'chatSquare'
+        if (
+          this.chat[i].email_user === this.chat[i - 1].email_user &&
+          this.chat[i].email_user === this.chat[i + 1].email_user
+        ) {
+          return "chatSquare";
         } else if (this.chat[i].email_user != this.chat[i + 1].email_user) {
-          return 'receiveEnd'
+          return "receiveEnd";
         } else {
-          return 'receiveFirst'
+          return "receiveFirst";
         }
       } else {
         if (i === 0) {
-          return 'receiveFirst'
+          return "receiveFirst";
         } else {
-          return 'receiveEnd'
+          return "receiveEnd";
         }
       }
     },
-    sendChat () {
-      this.socket.emit('send-chat', {
+    sendChat() {
+      this.socket.emit("send-chat", {
         text: this.text,
         to: this.$route.params.chatId,
-        from: this.$store.getters['auth/getUserData'].email
-      })
-      this.text = ''
+        from: this.$store.getters["auth/getUserData"].email,
+      });
+      this.text = "";
     },
-    getSendChat () {
-      this.socket.on('res-send-chat', (chat) => {
-        this.chat = chat
-      })
+    getSendChat() {
+      this.socket.on("res-send-chat", (chat) => {
+        this.chat = chat;
+      });
     },
-    getChat () {
-      this.socket.emit('get-chat', (this.data))
+    getChat() {
+      this.socket.emit("get-chat", this.data);
     },
-    resGetChat () {
-      this.socket.on('res-get-chat', (chat) => {
-        console.log(chat)
-        this.chat = chat
-      })
+    resGetChat() {
+      this.socket.on("res-get-chat", (chat) => {
+        this.chat = chat;
+      });
     },
-    getDataTarget () {
+    getDataTarget() {
       if (this.$route.params.chatId) {
         const obj = {
           id: this.$route.params.chatId,
-          email: this.$store.getters['auth/getUserData'].email
-        }
-        this.socket.emit('get-data-target', (obj))
+          email: this.$store.getters["auth/getUserData"].email,
+        };
+        this.socket.emit("get-data-target", obj);
       }
     },
-    resGetDataTarget () {
-      this.socket.on('res-data-target', (data) => {
-        this.target = data
-      })
-      this.socket.on('updateList', () => {
+    resGetDataTarget() {
+      this.socket.on("res-data-target", (data) => {
+        this.target = data;
+      });
+      this.socket.on("updateList", () => {
         const obj = {
           id: this.$route.params.chatId,
-          email: this.$store.getters['auth/getUserData'].email
-        }
-        this.socket.emit('get-data-target', (obj))
+          email: this.$store.getters["auth/getUserData"].email,
+        };
+        this.socket.emit("get-data-target", obj);
 
-        this.socket.on('res-data-target', (data) => {
-          this.target = data
-        })
-      })
+        this.socket.on("res-data-target", (data) => {
+          this.target = data;
+        });
+      });
     },
-    getImage_private (img) {
-      return `${process.env.VUE_APP_BACKEND}/profile-img/${img}`
+    getImage_private(img) {
+      return `${process.env.VUE_APP_BACKEND}/profile-img/${img}`;
     },
-    getImage_group (img) {
-      return `${process.env.VUE_APP_BACKEND}/group-img/${img}`
+    getImage_group(img) {
+      return `${process.env.VUE_APP_BACKEND}/group-img/${img}`;
     },
-    joinRoom () {
+    joinRoom() {
       if (this.$route.params.chatId) {
-        this.socket.emit('join-room', (this.$route.params.chatId))
+        this.socket.emit("join-room", this.$route.params.chatId);
       }
-    }
+    },
+    lookProfile() {
+      this.$router.push({ query: { page: "friendProfile" } });
+    },
   },
   computed: {
     ...mapGetters({
-      xgetOnline: 'socket/getOnlineState'
+      xgetOnline: "socket/getOnlineState",
     }),
-    getOnline () {
-      if (this.xgetOnline.filter(el => el.email == this.target[0].email_user).length > 0) {
-        return 'Online'
+    getOnline() {
+      if (
+        this.xgetOnline.filter((el) => el.email == this.target[0].email_user)
+          .length > 0
+      ) {
+        return "Online";
       } else {
-        return 'Offline'
+        return "Offline";
       }
-    }
+    },
   },
-  mounted () {
-    this.joinRoom()
-    this.getChat()
-    this.resGetChat()
-    this.getDataTarget()
-    this.resGetDataTarget()
-  }
-}
+  mounted() {
+    this.joinRoom();
+    this.getChat();
+    this.resGetChat();
+    this.getDataTarget();
+    this.resGetDataTarget();
+  },
+};
 </script>
-<style scoped src="../assets/css/logged.css">
-</style>
-<style scoped src="../assets/css/transition.css">
-</style>
+<style scoped src="../assets/css/logged.css"></style>
+<style scoped src="../assets/css/transition.css"></style>
 <style scoped>
 .cover {
   object-fit: cover;
-  border-radius: 15px 15px 15px 15px;
+  border-radius: 15px;
 }
 ::v-deep .dropdown-menu {
   border-radius: 30px 10px 30px 30px;

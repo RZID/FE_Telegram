@@ -68,7 +68,9 @@
                 </v-clamp>
               </h5>
               <p class="pl-3 m-0 text-muted" v-if="data.lastChat[0]">
-                {{ toDate(data.lastChat[0].time_chat) }}
+                <small>
+                  {{ toDateLeft(data.lastChat[0].time_chat) }}
+                </small>
               </p>
             </div>
             <div class="d-flex justify-content-between" v-if="data.lastChat[0]">
@@ -113,7 +115,6 @@ export default {
     }
   },
   mounted () {
-    // Axios.get(`${process.env.VUE_APP_BACKEND}/image/${this}`)
   }
 }
 </script>

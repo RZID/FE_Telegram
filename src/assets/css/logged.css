@@ -1,45 +1,51 @@
-@font-face{
-    src: url('../fonts/Rubik/Rubik-VariableFont_wght.ttf');
-    font-family: Rubik;
+@font-face {
+  src: url("../fonts/Rubik/Rubik-VariableFont_wght.ttf");
+  font-family: Rubik;
 }
-*{
-    font-family: Rubik;
+* {
+  font-family: Rubik;
 }
-.h-100vh{
-    height: 100vh;
+.h-100vh {
+  height: 100vh;
 }
-.bg-all{
-    background-color:#E5E5E5;
+.bg-all {
+  background-color: #e5e5e5;
 }
-.text-blue{
-    color: #7E98DF;
+.text-blue {
+  color: #7e98df;
 }
-.btn-blue{
-    background-color: #7E98DF;
-    color: white;
+.btn-blue {
+  background-color: #7e98df;
+  color: white;
 }
-.bg-blue{
-    background-color: #7E98DF;
-    color: white;
+.bg-blue {
+  background-color: #7e98df;
+  color: white;
 }
-.btn-outline-blue{
-    border-color: #7E98DF;
+.btn-outline-blue {
+  border-color: #7e98df;
 }
-.rounded-btn{
-    border-radius: 70px;
+.rounded-btn {
+  border-radius: 70px;
 }
-.br-30px{
-border-radius: 30px;
+.square-image {
+  height: 75px;
+  width: 75px;
+  object-fit: cover;
+  border-radius: 15px;
+}
+.br-30px {
+  border-radius: 30px;
 }
 .d-tabling {
-    display:table-row;
+  display: table-row;
 }
 .d-tableCell {
-    display:table-cell;
+  display: table-cell;
 }
-.h-200px{
-    height: 200px;
+.h-200px {
+  height: 200px;
 }
-.h-remaining-header{
-    height: calc(100vh - 200px);
+.h-remaining-header {
+  height: calc(100vh - 200px);
 }
