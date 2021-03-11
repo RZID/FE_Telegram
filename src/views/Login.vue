@@ -65,34 +65,35 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
-import swal from '../helper/swal'
+import { mapActions } from "vuex";
+import swal from "../helper/swal";
 export default {
   mixins: [swal],
   data: () => {
     return {
-      email: '',
-      pass: ''
-    }
+      email: "",
+      pass: "",
+    };
   },
   methods: {
     ...mapActions({
-      login: 'auth/login'
+      login: "auth/login",
     }),
-    send () {
+    send() {
       const body = {
         email: this.email,
-        pass: this.pass
-      }
-      this.login(body).then(() => {
-        this.toastSuccess(`Welcome ${localStorage.getItem('name')}`)
-        this.$router.push('/chat')
-      }).catch((err) => {
-        this.toastDanger(err)
-      })
-    }
-  }
-}
+        pass: this.pass,
+      };
+      this.login(body)
+        .then(() => {
+          this.toastSuccess(`Welcome ${localStorage.getItem("name")}`);
+          this.$router.push("/chat");
+        })
+        .catch((err) => {
+          this.toastDanger(err);
+        });
+    },
+  },
+};
 </script>
-<style src="../assets/css/prelog.css" scoped>
-</style>
+<style src="../assets/css/prelog.css" scoped></style>

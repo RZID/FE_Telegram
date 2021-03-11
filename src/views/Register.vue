@@ -89,39 +89,41 @@
   </div>
 </template>
 <script>
-import Axios from 'axios'
-import swal from '../helper/swal'
+import Axios from "axios";
+import swal from "../helper/swal";
 export default {
   mixins: [swal],
   data: () => {
     return {
-      name: '',
-      email: '',
-      pass: ''
-    }
+      name: "",
+      email: "",
+      pass: "",
+    };
   },
   methods: {
-    send () {
+    send() {
       const data = {
         name: this.name,
         email: this.email,
         pass: this.pass,
-      }
-      Axios.post(`${process.env.VUE_APP_BACKEND}/register`, data).then(res => {
-        this.toastSuccess(res.data.message)
-        this.$router.push('/login')
-      }).catch(err => {
-        if (err) {
-          if (err.response) {
-            this.AlertError(err.response.data.message)
-          } else {
-            this.AlertError('Oops... We had trouble')
+      };
+      Axios.post(`${process.env.VUE_APP_BACKEND}/register`, data)
+        .then((res) => {
+          this.toastSuccess(res.data.message);
+          this.$router.push("/login");
+        })
+        .catch((err) => {
+          if (err) {
+            if (err.response) {
+              console.log(err.response);
+              this.AlertError(err.response.data.message);
+            } else {
+              this.AlertError("Oops... We had trouble");
+            }
           }
-        }
-      })
-    }
-  }
-}
+        });
+    },
+  },
+};
 </script>
-<style src="../assets/css/prelog.css" scoped>
-</style>
+<style src="../assets/css/prelog.css" scoped></style>
