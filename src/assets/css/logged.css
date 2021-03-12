@@ -43,6 +43,9 @@
 .d-tableCell {
   display: table-cell;
 }
+.cover-img {
+  object-fit: cover;
+}
 .h-200px {
   height: 200px;
 }

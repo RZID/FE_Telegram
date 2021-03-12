@@ -2,7 +2,7 @@
   <div class="h-100vh">
     <AddFriend />
     <div class="h-100">
-      <div class="row no-gutters h-100">
+      <div class="row no-gutters h-100 justify-content-end">
         <div
           class="h-100vh col-md-3 border-right overflow-auto"
           :class="$route.params.chatId ? 'd-none d-lg-block' : ''"
@@ -102,7 +102,7 @@
                     </h6>
                     Bio
                   </div>
-                  <div v-if="userData.lat_user && userData.long_user">
+                  <div>
                     Location
                     <Maps
                       v-if="render"
@@ -180,7 +180,7 @@
         </div>
         <div
           v-else
-          class="col-md-3 border-right"
+          class="col-xl-3 col-md-5 col-lg-4 border-right"
           :class="$route.params.chatId ? 'd-none d-lg-block' : ''"
         >
           <div class="container py-3 h-200px">
@@ -313,7 +313,7 @@
           </div>
         </div>
         <div
-          class="col-12 col-lg-3"
+          class="col-12 friendProfile"
           v-if="$route.query.page === 'friendProfile'"
         >
           <div class="container pt-4 w-100 ">
@@ -346,15 +346,25 @@
               <img
                 class="square-image "
                 :src="
-                  getImage(
-                    getUserData
-                      .filter((el) => el.unique_room == $route.params.chatId)[0]
-                      .participant.filter(
-                        (el) =>
-                          el.email_user !=
-                          $store.getters['auth/getUserData'].email
-                      )[0].img_photo
-                  )
+                  getUserData
+                    .filter((el) => el.unique_room == $route.params.chatId)[0]
+                    .participant.filter(
+                      (el) =>
+                        el.email_user !=
+                        $store.getters['auth/getUserData'].email
+                    )[0].img_photo
+                    ? getImage(
+                        getUserData
+                          .filter(
+                            (el) => el.unique_room == $route.params.chatId
+                          )[0]
+                          .participant.filter(
+                            (el) =>
+                              el.email_user !=
+                              $store.getters['auth/getUserData'].email
+                          )[0].img_photo
+                      )
+                    : getImage('default.svg')
                 "
                 alt=""
               />
@@ -584,5 +594,15 @@ input:focus {
 ::v-deep .dropdown-item:hover {
   color: rgb(232, 236, 255);
   background: none;
+}
+@media screen and (min-width: 992px) {
+  .friendProfile {
+    z-index: 99999;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    background: white;
+    height: 100vh;
+    width: 300px;
+    position: absolute;
+  }
 }
 </style>

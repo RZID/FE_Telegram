@@ -1,7 +1,7 @@
 <template>
   <div class="h-100vh">
     <div class="navBar shadow" v-if="target.length > 0">
-      <div class="d-flex h-100 px-5">
+      <div class="d-flex h-100">
         <div class="align-self-center w-100">
           <div class="container">
             <div class="row">
@@ -13,51 +13,61 @@
                   <h4 class="text-blue m-0 fas fa-chevron-left"></h4>
                 </b-link>
               </div>
-              <div class="col-3 col-md-2 col-lg-1 mr-3">
-                <img
-                  style="height: 50px; width: 50px"
-                  class="cover"
-                  v-if="target[0].type_room == 1"
-                  :src="
-                    target[0].img_photo
-                      ? getImage_private(target[0].img_photo)
-                      : getImage_private('default.svg')
-                  "
-                  @onerror="
-                    'this.onerror=null; this.src=' +
-                      getImage_private('default.svg')
-                  "
-                /><img
-                  style="max-height: 50px"
-                  class="w-100 h-100"
-                  v-else
-                  :src="
-                    target[0].img_photo
-                      ? getImage_group(target[0].img_photo)
-                      : getImage_group('default.svg')
-                  "
-                  @onerror="
-                    'this.onerror=null; this.src=' +
-                      getImage_group('default.svg')
-                  "
-                />
-              </div>
-              <div class="col">
-                <b-link
-                  class="text-dark text-decoration-none"
-                  @click="lookProfile()"
-                >
-                  <span v-if="target[0].type_room == 1">
-                    <h4 class="m-0">
-                      <v-clamp autoresize :max-lines="1">
+              <div class="col d-flex">
+                <div class="mr-3">
+                  <img
+                    style="height: 50px; width: 50px"
+                    class="cover"
+                    v-if="target[0].type_room == 1"
+                    :src="
+                      target[0].img_photo
+                        ? getImage_private(target[0].img_photo)
+                        : getImage_private('default.svg')
+                    "
+                    @onerror="
+                      'this.onerror=null; this.src=' +
+                        getImage_private('default.svg')
+                    "
+                  /><img
+                    style="max-height: 50px"
+                    class="w-100 h-100"
+                    v-else
+                    :src="
+                      target[0].img_photo
+                        ? getImage_group(target[0].img_photo)
+                        : getImage_group('default.svg')
+                    "
+                    @onerror="
+                      'this.onerror=null; this.src=' +
+                        getImage_group('default.svg')
+                    "
+                  />
+                </div>
+                <div>
+                  <b-link
+                    class="text-dark text-decoration-none"
+                    @click="lookProfile()"
+                  >
+                    <span v-if="target[0].type_room == 1">
+                      <h4 class="m-0 d-md-none">
+                        {{
+                          target[0].name_user.length > 8
+                            ? target[0].name_user
+                                .split("")
+                                .splice(0, 8)
+                                .join("") + "..."
+                            : target[0].name_user
+                        }}
+                      </h4>
+                      <h4 class="m-0 d-none d-md-block">
                         {{ target[0].name_user }}
-                      </v-clamp>
-                    </h4>
-                    <p class="m-0">
-                      <small class="text-blue">{{ getOnline }}</small>
-                    </p>
-                  </span>
-                </b-link>
+                      </h4>
+                      <p class="m-0">
+                        <small class="text-blue">{{ getOnline }}</small>
+                      </p>
+                    </span>
+                  </b-link>
+                </div>
               </div>
               <div class="col-1 d-flex justify-content-end">
                 <b-dropdown variant="link" size="sm" no-caret right no-carets>
@@ -137,8 +147,7 @@
                   id="dropdown-dropup"
                   dropup
                   text="Drop-Up"
-                  variant="white"
-                  class="m-2"
+                  variant="light"
                   no-caret
                 >
                   <template #button-content>
@@ -170,7 +179,7 @@
             </div>
           </div>
           <transition name="append">
-            <div v-if="text" class="align-self-center overflow-hidden">
+            <div v-if="text" class="align-self-center">
               <button type="submit" class="btn btn-light">
                 <h3 class="m-0 text-blue">
                   <i class="fab fa-telegram-plane"></i>
@@ -186,14 +195,10 @@
 <script>
 import io from "socket.io-client";
 import date from "../helper/date";
-import VClamp from "vue-clamp";
 import { mapGetters } from "vuex";
 
 export default {
   mixins: [date],
-  components: {
-    VClamp,
-  },
   props: ["data"],
   data: () => {
     return {

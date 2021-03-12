@@ -24,8 +24,16 @@
               <div class="row d-flex">
                 <div class="col-4">
                   <img
-                    class="w-100 h-100"
-                    :src="getImage(element.img_photo)"
+                    class="w-100 h-100 cover-img"
+                    :src="
+                      element.img_photo
+                        ? getImage(element.img_photo)
+                        : getImage('default.svg')
+                    "
+                    :onerror="
+                      'this.onerror=`null`;this.src=' +
+                        getImage(element.img_photo)
+                    "
                     alt=""
                   />
                 </div>
@@ -94,6 +102,7 @@ export default {
       )
         .then((res) => {
           this.$router.push(`/chat/${res.data.message}`);
+          this.$bvModal.hide("modal-1");
         })
         .catch((err) => {
           console.error(err);
@@ -102,3 +111,4 @@ export default {
   },
 };
 </script>
+<style scoped src="../assets/css/logged.css"></style>
