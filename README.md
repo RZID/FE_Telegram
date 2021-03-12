@@ -1,17 +1,17 @@
-# EZ WALLET
+# Realtime Chat Telegram
 
-EZ (Easy) Wallet is an application that provides a transfer feature between users. This is the frontend service for this app. You can see the backend service [here](https://github.com/RZID/EZWallet-Backend/tree/dev). Visit the following link [EZWallet](http://52.204.186.223:44577)
+A responsive website-based realtime chat application. Built using VueJS, ExpressJS and SocketIO. This application was created to make it easier for users to send messages to each other in realtime and share the latest location.
 
 ### Modules
 
-- [vuex](https://www.npmjs.com/package/vuex)
 - [axios](https://www.npmjs.com/package/axios)
-- [socket.io](https://socket.io/)
-- [vue2-google-maps](https://www.npmjs.com/package/vue2-google-maps)
+- [bootstrap](https://www.npmjs.com/package/bootstrap-vue)
 - [moment](https://www.npmjs.com/package/moment)
+- [socket.io](https://www.npmjs.com/package/socket.io)
 - [sweetalert2](https://www.npmjs.com/package/sweetalert2)
-- [bootstrap](https://www.npmjs.com/package/bootstrap)
-- [bootstrap-vue](https://www.npmjs.com/package/bootstrap-vue)
+- [vue](https://www.npmjs.com/package/vue)
+- [vue2-google-maps](https://www.npmjs.com/package/vue2-google-maps)
+- [vuex](https://www.npmjs.com/package/vuex)
 
 ---
 
@@ -19,26 +19,26 @@ EZ (Easy) Wallet is an application that provides a transfer feature between user
 
 #### Desktop Interface
 
-![Desktop Interface](https://drive.google.com/uc?id=1jXF6aXLb2ZxquK3GOrZumZfWb1eb8pSx)
+![Desktop Interface](https://drive.google.com/uc?id=1IpqhB26o4jNcxaeWi82t0chcRyPBfjOO)
 
 #### Tablet Interface
 
-![Tablet Interface](https://drive.google.com/uc?id=15ltNz4aipYb1_TODnAa9_DuJC4QWlZjp)
+![Tablet Interface](https://drive.google.com/uc?id=16clK-iOD5SWHRgyU7W1X-tBQ0yb1m7sw)
 
 #### Mobile Interface
 
-![Mobile Interface](https://drive.google.com/uc?id=1hz8U5_HMuIvSfuUpmfLM0MrE8WUtJYoK)
+![Mobile Interface](https://drive.google.com/uc?id=15CUkTtoy8o5neAz96rrYMUJDrt7nSKlY)
 
 ### How To Use
 
-1. Clone this repository with git clone https://github.com/RZID/EZWallet-Frontend.
+1. Clone this repository with git clone https://github.com/RZID/BE_Telegram.git
 2. Run `npm install` to install modules required.
 3. Set .env file in root:
 
 ```
-VUE_APP_BACKEND = http://localhost:PORT
+VUE_APP_BACKEND = http://localhost:<PORT>
+VUE_APP_GMAPS = <Fill With TOKEN From GOOGLE API. Check here : https://developers.google.com/maps>
 
-example PORT use 3000, 4000, or 4001 (this is just example)
 ```
 
 5. Compiles and hot-reloads for development
@@ -65,8 +65,8 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### API EZWallet
 
-Checkout [here](https://github.com/RZID/EZWallet-Backend/tree/dev)
+Checkout [here](https://github.com/RZID/BE_Telegram)
 
 ### Demo
 
-See [Demo](http://52.204.186.223:44577/)
+See [Demo](http://bit.ly/Telegram-Ramadhanu)
